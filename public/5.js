@@ -31,10 +31,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      produto: {}
+      produto: {},
+      timedout: false
     };
   },
   created: function created() {
@@ -42,6 +46,10 @@ __webpack_require__.r(__webpack_exports__);
 
     this.axios.get('http://localhost:8000/api/quantidades/' + this.$route.params.id).then(function (response) {
       _this.produto = response.data;
+
+      if (_this.produto.quantidades.length == 0) {
+        _this.timedout = true;
+      }
     });
   },
   methods: {}
@@ -114,7 +122,15 @@ var render = function() {
             0
           )
         ])
-      : _c("div", [_vm._v("Sem mudanças")])
+      : _c("div", [
+          _vm.timedout
+            ? _c("div", [_vm._v("Sem Histórico.")])
+            : _c("div", [
+                _c("img", {
+                  attrs: { src: "/images/loading.gif", width: "200" }
+                })
+              ])
+        ])
   ])
 }
 var staticRenderFns = []

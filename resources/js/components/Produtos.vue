@@ -31,7 +31,10 @@
             </tr>
             </tbody>
         </table>
-        <div v-else><img src="/images/loading.gif" width="200"></div>
+        <div v-else>
+            <div v-if="timedout">Sem Produtos.</div>
+            <div v-else><img src="/images/loading.gif" width="200"></div>
+        </div>
     </div>
 </template>
 
@@ -40,7 +43,8 @@ export default {
     data() {
         return {
             produtos: [],
-            selecteds: []
+            selecteds: [],
+            timedout:false
         }
     },
     created() {
@@ -48,6 +52,9 @@ export default {
             .get('http://localhost:8000/api/produtos/')
             .then(response => {
                 this.produtos = response.data;
+                if(this.produtos.length == 0){
+                    this.timedout = true;
+                }
             });
     },
     methods: {

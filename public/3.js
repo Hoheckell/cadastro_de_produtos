@@ -35,10 +35,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      changes: []
+      changes: [],
+      timedout: false
     };
   },
   created: function created() {
@@ -46,6 +50,10 @@ __webpack_require__.r(__webpack_exports__);
 
     this.axios.get('http://localhost:8000/api/changes/' + this.$route.params.id).then(function (response) {
       _this.changes = response.data;
+
+      if (_this.changes.length == 0) {
+        _this.timedout = true;
+      }
     });
   },
   methods: {
@@ -159,7 +167,13 @@ var render = function() {
           )
         ])
       : _c("div", [
-          _c("img", { attrs: { src: "/images/loading.gif", width: "200" } })
+          _vm.timedout
+            ? _c("div", [_vm._v("Sem Histórico.")])
+            : _c("div", [
+                _c("img", {
+                  attrs: { src: "/images/loading.gif", width: "200" }
+                })
+              ])
         ])
   ])
 }

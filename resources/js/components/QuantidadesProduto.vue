@@ -16,7 +16,10 @@
                 </div>
             </div>
         </div>
-        <div v-else>Sem mudanças</div>
+        <div v-else >
+            <div v-if="timedout">Sem Histórico.</div>
+            <div v-else><img src="/images/loading.gif" width="200"></div>
+        </div>
     </div>
 </template>
 
@@ -24,7 +27,8 @@
 export default {
     data() {
         return {
-            produto: {}
+            produto: {},
+            timedout:false
         }
     },
     created() {
@@ -32,6 +36,9 @@ export default {
             .get('http://localhost:8000/api/quantidades/'+this.$route.params.id)
             .then(response => {
                 this.produto = response.data;
+                if(this.produto.quantidades.length == 0){
+                    this.timedout = true;
+                }
             });
     },
     methods: {

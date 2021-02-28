@@ -20,7 +20,10 @@
                 </div>
             </div>
         </div>
-        <div v-else><img src="/images/loading.gif" width="200"></div>
+        <div v-else>
+            <div v-if="timedout">Sem Histórico.</div>
+            <div v-else><img src="/images/loading.gif" width="200"></div>
+        </div>
     </div>
 </template>
 
@@ -28,7 +31,8 @@
 export default {
     data() {
         return {
-            changes: []
+            changes: [],
+            timedout:false
         }
     },
     created() {
@@ -36,12 +40,15 @@ export default {
             .get('http://localhost:8000/api/changes/'+this.$route.params.id)
             .then(response => {
                 this.changes = response.data;
+                if(this.changes.length == 0){
+                    this.timedout = true;
+                }
             });
     },
     methods: {
         quantityHistory(id){
             this.$router.push({ name: 'quantidades', params: { id: id } });
-        }
+        },
     }
 }
 </script>
