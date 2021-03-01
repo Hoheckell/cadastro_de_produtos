@@ -25,9 +25,7 @@ class ProdutoController extends Controller
             }
         }catch (\Exception $e){
             Log::error($e->getMessage()." ".$e->getFile()." ".$e->getLine());
-            return response()->json($e->getMessage()." ".$e->getFile()." ".$e->getLine());
         }
-        return response()->json('Produto(s) cadastrado(s)!');
     }
 
     public function show($id)
@@ -57,9 +55,7 @@ class ProdutoController extends Controller
         }catch (\Exception $e){
             DB::rollBack();
             Log::error($e->getMessage()." ".$e->getFile()." ".$e->getLine());
-            return response()->json($e->getMessage()." ".$e->getFile()." ".$e->getLine());
         }
-        return response()->json('Product(s) updated(s)!');
     }
 
     public function destroy($id)
@@ -80,9 +76,7 @@ class ProdutoController extends Controller
         }catch (\Exception $e){
             DB::rollBack();
             Log::error($e->getMessage()." ".$e->getFile()." ".$e->getLine());
-            return response()->json($e->getMessage()." ".$e->getFile()." ".$e->getLine());
         }
-        return response()->json('Product(s) deleted(s)!');
     }
 
     public function changes($id)
